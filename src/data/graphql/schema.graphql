@@ -1,0 +1,1973 @@
+"""
+Indicates that an Input Object is a OneOf Input Object (and thus requires exactly one of its fields be provided).
+"""
+directive @oneOf on INPUT_OBJECT
+
+"""明星"""
+type Actor {
+  id: ID!
+  name: String!
+  original_name: String
+  avatar: String
+  description: String
+  area: String
+  birthday: Date
+
+  """性别：0=未知, 1=男, 2=女"""
+  gender: Int!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  credits: [MovieCredit!]!
+  statistics: ActorStatistics
+}
+
+"""A paginated list of Actor items."""
+type ActorPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Actor items."""
+  data: [Actor!]!
+}
+
+"""明星统计"""
+type ActorStatistics {
+  id: ID!
+  actor_id: ID!
+  movie_count: Int!
+  view_count: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  actor: Actor!
+}
+
+"""广告"""
+type Advertisement {
+  id: ID!
+
+  """广告名称"""
+  name: String
+
+  """广告图片"""
+  image: String
+
+  """状态：0=下架，1=上架"""
+  status: Int!
+
+  """跳转链接"""
+  link: String
+
+  """广告类型"""
+  type: AdvertisementType!
+
+  """排序"""
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""广告类型枚举"""
+enum AdvertisementType {
+  """开屏广告"""
+  SPLASH
+
+  """横幅广告"""
+  BANNER
+
+  """置顶栏目"""
+  TOP_CHANNEL
+
+  """悬浮广告"""
+  FLOAT
+
+  """前贴片"""
+  PRE_ROLL
+}
+
+"""App版本"""
+type AppVersion {
+  id: ID!
+
+  """平台"""
+  platform: Platform!
+
+  """版本号：1.0.0"""
+  version: String!
+  version_code: Int!
+  title: String!
+  description: String
+  download_url: String
+
+  """文件大小（字节）"""
+  file_size: Int!
+  md5: String
+  force_update: Boolean!
+  is_active: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""资源文件"""
+type Asset {
+  id: ID!
+
+  """资源类型"""
+  type: AssetType!
+
+  """存储路径"""
+  path: String!
+
+  """访问链接"""
+  url: String!
+
+  """宽度"""
+  width: Int
+
+  """高度"""
+  height: Int
+
+  """存储源"""
+  disk: String!
+
+  """用途标识"""
+  purpose: AssetPurpose
+  created_at: DateTime!
+}
+
+"""资源用途"""
+enum AssetPurpose {
+  """用户头像"""
+  AVATAR
+
+  """反馈附件"""
+  FEEDBACK
+
+  """封面图"""
+  COVER
+}
+
+"""资源类型"""
+enum AssetType {
+  """图片"""
+  IMAGE
+
+  """视频"""
+  VIDEO
+
+  """音频"""
+  AUDIO
+}
+
+"""认证响应"""
+type AuthPayload {
+  """用户信息"""
+  user: User!
+
+  """访问令牌"""
+  token: String!
+}
+
+"""轮播图"""
+type Banner {
+  id: ID!
+  title: String!
+  subtitle: String
+  cover: String!
+
+  """
+  跳转类型:
+  - MOVIE: 影片详情
+  - ACTOR: 演员详情
+  - TOPIC: 专题页面
+  - PAGE: 应用内页面（link_url为页面路径，如 /rank、/preview）
+  - URL: 外部链接（link_url为完整URL）
+  """
+  link_type: String!
+
+  """关联ID（link_type为MOVIE/ACTOR/TOPIC时有值）"""
+  link_id: ID
+
+  """跳转链接（link_type为PAGE/URL时有值）"""
+  link_url: String
+  position: String
+  category_id: ID
+  sort: Int!
+  start_at: DateTime
+  end_at: DateTime
+  is_active: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  category: Category
+}
+
+"""绑定邀请码结果"""
+type BindInvitationCodePayload {
+  """是否成功"""
+  success: Boolean!
+
+  """错误信息"""
+  message: String
+
+  """邀请记录"""
+  record: InvitationRecord
+}
+
+"""一级分类"""
+type Category {
+  id: ID!
+  name: String!
+  sort: Int!
+  is_recommend: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  movies: [Movie!]!
+  channels: [Channel!]!
+  banners: [Banner!]!
+}
+
+"""分类首页数据"""
+type CategoryHome {
+  """轮播图列表"""
+  banners: [Banner!]!
+
+  """宫格位列表（仅推荐分类有数据）"""
+  grids: [Channel!]!
+
+  """栏目列表（前10个常规栏目）"""
+  channels: [Channel!]!
+
+  """热播排行影片（仅推荐分类有数据，前10部）"""
+  hotMovies: [Movie!]!
+}
+
+"""栏目/频道"""
+type Channel {
+  id: ID!
+  category_id: ID!
+  name: String!
+  cover: String
+
+  """图标"""
+  icon: String
+
+  """背景图"""
+  background_image: String
+
+  """宫格图标（is_grid为true时使用）"""
+  grid_icon: String
+  description: String
+  sort: Int!
+  is_grid: Boolean!
+
+  """
+  链接类型:
+  - MOVIES: 影片列表（展示栏目关联的影片）
+  - PAGE: 应用内页面（link_url为页面路径，如 /rank、/preview）
+  - URL: 外部链接（link_url为完整URL）
+  """
+  link_type: String!
+
+  """跳转链接（link_type为PAGE/URL时有值）"""
+  link_url: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  category: Category!
+  movies(
+    """Limits number of fetched items."""
+    first: Int!
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+}
+
+"""A paginated list of Channel items."""
+type ChannelPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Channel items."""
+  data: [Channel!]!
+}
+
+"""检查更新结果"""
+type CheckUpdateResult {
+  """是否有更新"""
+  has_update: Boolean!
+
+  """是否强制更新（当前版本到最新版本之间有任意版本标记为强制更新时为true）"""
+  force_update: Boolean!
+
+  """最新版本信息"""
+  latest_version: AppVersion
+}
+
+"""评论"""
+type Comment {
+  id: ID!
+  user_id: ID!
+
+  """评论目标类型"""
+  commentable_type: CommentableType!
+
+  """评论目标ID"""
+  commentable_id: ID!
+  parent_id: ID
+  reply_to_comment_id: ID
+  content: String!
+
+  """状态"""
+  status: CommentStatus!
+  is_top: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+  parent: Comment
+  replies: [Comment!]!
+  replyToComment: Comment
+  statistics: CommentStatistics
+  likes: [CommentLike!]!
+
+  """当前用户是否已点赞"""
+  liked: Boolean!
+
+  """子评论（分页）"""
+  children(
+    """Limits number of fetched items."""
+    first: Int! = 10
+
+    """The offset from which items are returned."""
+    page: Int
+  ): CommentPaginator!
+}
+
+"""评论目标类型"""
+enum CommentableType {
+  """影片评论"""
+  MOVIE
+
+  """反馈回复"""
+  FEEDBACK
+}
+
+"""评论点赞"""
+type CommentLike {
+  user_id: ID!
+  comment_id: ID!
+  created_at: DateTime!
+  user: User!
+  comment: Comment!
+}
+
+"""A paginated list of Comment items."""
+type CommentPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Comment items."""
+  data: [Comment!]!
+}
+
+"""评论统计"""
+type CommentStatistics {
+  id: ID!
+  comment_id: ID!
+  like_count: Int!
+
+  """回复数（仅一级评论）"""
+  reply_count: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  comment: Comment!
+}
+
+"""评论状态"""
+enum CommentStatus {
+  """正常"""
+  ENABLED
+
+  """禁用"""
+  DISABLED
+}
+
+input CreateAssetInput {
+  """资源类型"""
+  type: AssetType!
+
+  """存储路径"""
+  path: String!
+
+  """访问链接"""
+  url: String!
+
+  """宽度"""
+  width: Int
+
+  """高度"""
+  height: Int
+
+  """存储源"""
+  disk: String
+
+  """用途标识"""
+  purpose: AssetPurpose
+}
+
+input CreateFeedbackCommentInput {
+  """反馈ID"""
+  feedback_id: ID!
+
+  """评论内容"""
+  content: String!
+}
+
+input CreateFeedbackInput {
+  """反馈类型ID"""
+  feedback_type_id: ID!
+
+  """反馈内容（最多1000字）"""
+  content: String!
+
+  """图片资源ID数组（最多9张）"""
+  image_ids: [ID!]
+
+  """视频资源ID"""
+  video_id: ID
+
+  """影片ID（从播放详情页进入时携带）"""
+  movie_id: ID
+
+  """播放线路ID（正在播放时携带）"""
+  play_line_id: ID
+
+  """播放链接（正在播放时携带）"""
+  play_url: String
+
+  """联系方式"""
+  contact: String
+
+  """设备信息"""
+  device_info: String
+
+  """App版本"""
+  app_version: String
+}
+
+input CreateMovieCommentInput {
+  """影片ID"""
+  movie_id: ID!
+
+  """父评论ID（回复一级评论时传入）"""
+  parent_id: ID
+
+  """被回复的评论ID（回复二级评论时传入）"""
+  reply_to_comment_id: ID
+
+  """评论内容"""
+  content: String!
+}
+
+input CreateReportInput {
+  reportable_type: String!
+  reportable_id: ID!
+  reason: String!
+  description: String
+}
+
+"""演职人员角色类型"""
+enum CreditRole {
+  """导演"""
+  DIRECTOR
+
+  """演员"""
+  ACTOR
+
+  """编剧"""
+  WRITER
+
+  """制片人"""
+  PRODUCER
+}
+
+"""A date string with format `Y-m-d`, e.g. `2018-05-23`."""
+scalar Date
+
+"""
+A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`.
+"""
+scalar DateTime
+
+"""剧集"""
+type Episode {
+  id: ID!
+  movie_id: ID!
+  episode_number: Int!
+  title: String
+  cover: String
+
+  """时长（秒）"""
+  duration: Int!
+  published_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  movie: Movie!
+  playLines: [PlayLine!]!
+  statistics: EpisodeStatistics
+}
+
+"""剧集统计"""
+type EpisodeStatistics {
+  id: ID!
+  episode_id: ID!
+  play_count: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  episode: Episode!
+}
+
+"""收藏"""
+type Favorite {
+  id: ID!
+  user_id: ID!
+  movie_id: ID!
+  created_at: DateTime!
+  user: User!
+  movie: Movie!
+}
+
+"""A paginated list of Favorite items."""
+type FavoritePaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Favorite items."""
+  data: [Favorite!]!
+}
+
+"""意见反馈"""
+type Feedback {
+  id: ID!
+  user_id: ID
+  feedback_type_id: ID
+
+  """反馈类型"""
+  feedbackType: FeedbackType
+  content: String!
+
+  """图片列表"""
+  images: [Asset!]!
+
+  """视频"""
+  video: Asset
+
+  """关联影片"""
+  movie: Movie
+
+  """播放线路"""
+  playLine: PlayLine
+
+  """播放链接"""
+  play_url: String
+
+  """用户IP"""
+  ip: String
+  contact: String
+  device_info: String
+  app_version: String
+
+  """状态：0=待处理, 1=已回复, 2=已关闭"""
+  status: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User
+
+  """回复列表"""
+  comments: [Comment!]!
+}
+
+"""A paginated list of Feedback items."""
+type FeedbackPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Feedback items."""
+  data: [Feedback!]!
+}
+
+"""反馈类型"""
+type FeedbackType {
+  id: ID!
+
+  """类型名称"""
+  name: String!
+
+  """排序"""
+  sort: Int!
+
+  """是否启用"""
+  is_active: Boolean!
+  created_at: DateTime!
+}
+
+"""游戏"""
+type Game {
+  id: ID!
+
+  """标题"""
+  title: String!
+
+  """副标题"""
+  subtitle: String
+
+  """图片"""
+  image: String!
+
+  """链接"""
+  link: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""游戏分类枚举"""
+enum GameCategory {
+  """热门推荐"""
+  HOT_RECOMMEND
+
+  """最多人玩"""
+  MOST_PLAYED
+
+  """赚钱最多"""
+  MOST_PROFITABLE
+}
+
+"""游戏分类信息"""
+type GameCategoryInfo {
+  """分类"""
+  category: GameCategory!
+
+  """分类名称"""
+  name: String!
+}
+
+"""A paginated list of Game items."""
+type GamePaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Game items."""
+  data: [Game!]!
+}
+
+"""类型（用于筛选）"""
+type Genre {
+  id: ID!
+  name: String!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  movies: [Movie!]!
+}
+
+"""热门搜索关键词"""
+type HotKeyword {
+  id: ID!
+
+  """关键词"""
+  keyword: String!
+
+  """关键词类型"""
+  type: HotKeywordType!
+
+  """关联ID（影片/演员/类型）"""
+  link_id: ID
+}
+
+"""热门关键词类型"""
+enum HotKeywordType {
+  """影片"""
+  MOVIE
+
+  """演员"""
+  ACTOR
+
+  """类型"""
+  GENRE
+
+  """自定义"""
+  CUSTOM
+}
+
+"""邀请码"""
+type InvitationCode {
+  id: ID!
+  user_id: ID!
+
+  """邀请码（6位）"""
+  code: String!
+
+  """已使用次数"""
+  used_count: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+  records: [InvitationRecord!]!
+}
+
+"""邀请记录"""
+type InvitationRecord {
+  id: ID!
+  invitation_code_id: ID!
+
+  """邀请人ID"""
+  inviter_id: ID!
+
+  """被邀请人ID"""
+  invitee_id: ID!
+  created_at: DateTime!
+  invitationCode: InvitationCode!
+
+  """邀请人"""
+  inviter: User!
+
+  """被邀请人"""
+  invitee: User!
+}
+
+"""A paginated list of InvitationRecord items."""
+type InvitationRecordPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of InvitationRecord items."""
+  data: [InvitationRecord!]!
+}
+
+"""登录输入"""
+input LoginInput {
+  """邮箱或手机号"""
+  account: String!
+
+  """密码"""
+  password: String!
+}
+
+"""影片"""
+type Movie {
+  id: ID!
+  series_id: ID
+  title: String!
+  original_title: String
+  aliases: [String!]
+  cover: String
+  description: String
+  score: Float!
+  year: Int
+  area: String
+  language: String
+
+  """时长（秒）"""
+  duration: Int!
+
+  """最高清晰度：480P/720P/1080P/2K/4K/8K"""
+  quality: String
+
+  """状态：0=预告, 1=更新中, 2=已完结"""
+  status: Int!
+  total_episodes: Int!
+  current_episode: Int!
+  release_date: Date
+
+  """平台上映日期"""
+  available_at: Date
+  series_sort: Int!
+
+  """系列类型：1=正剧, 2=剧场版, 3=番外"""
+  series_type: Int!
+
+  """发布状态：0=草稿, 1=已发布, 2=下架"""
+  publish_status: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  series: MovieSeries
+  episodes: [Episode!]!
+  statistics: MovieStatistics
+  credits: [MovieCredit!]!
+  sources: [MovieSource!]!
+  categories: [Category!]!
+  channels: [Channel!]!
+  genres: [Genre!]!
+
+  """当前用户是否已收藏（未登录返回false）"""
+  isFavorited: Boolean!
+
+  """当前用户是否已订阅（未登录返回false）"""
+  isSubscribed: Boolean!
+
+  """当前用户是否已预约（未登录返回false）"""
+  isReserved: Boolean!
+
+  """当前用户上次观看记录（未登录或无记录返回null）"""
+  lastWatchHistory: WatchHistory
+}
+
+"""演职人员关联"""
+type MovieCredit {
+  id: ID!
+  movie_id: ID!
+  actor_id: ID!
+
+  """角色类型"""
+  role: CreditRole!
+
+  """饰演角色名"""
+  character: String
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  movie: Movie!
+  actor: Actor!
+}
+
+"""影片筛选选项"""
+type MovieFilters {
+  """地区列表"""
+  areas: [String!]!
+
+  """年份列表（降序）"""
+  years: [Int!]!
+
+  """类型列表"""
+  genres: [Genre!]!
+}
+
+"""A paginated list of Movie items."""
+type MoviePaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Movie items."""
+  data: [Movie!]!
+}
+
+"""求片"""
+type MovieRequest {
+  id: ID!
+  user_id: ID!
+
+  """求片内容（0-100字）"""
+  content: String!
+
+  """状态：0=待处理, 1=已采纳, 2=已忽略"""
+  status: Int!
+  admin_reply: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+}
+
+"""A paginated list of MovieRequest items."""
+type MovieRequestPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of MovieRequest items."""
+  data: [MovieRequest!]!
+}
+
+"""按上映日期分组的影片"""
+type MoviesByDate {
+  """日期"""
+  date: Date!
+
+  """日期标签（如：今日上映、昨日上映、3天后上映）"""
+  label: String!
+
+  """该日期的影片数量"""
+  count: Int!
+
+  """该日期的影片列表"""
+  movies: [Movie!]!
+}
+
+"""按日期分组的影片分页结果"""
+type MoviesByDatePaginator {
+  """数据列表"""
+  data: [MoviesByDate!]!
+
+  """是否有更多数据"""
+  hasMorePages: Boolean!
+
+  """当前页码"""
+  currentPage: Int!
+
+  """总日期数"""
+  totalDates: Int!
+}
+
+"""影片系列/合集"""
+type MovieSeries {
+  id: ID!
+  title: String!
+  cover: String
+  description: String
+
+  """状态：1=连载中, 2=已完结"""
+  status: Int!
+  total_parts: Int!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  movies: [Movie!]!
+}
+
+"""A paginated list of MovieSeries items."""
+type MovieSeriesPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of MovieSeries items."""
+  data: [MovieSeries!]!
+}
+
+"""片源信息"""
+type MovieSource {
+  id: ID!
+  movie_id: ID!
+  source_name: String!
+  source_id: String!
+  last_synced_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  movie: Movie!
+}
+
+"""影片统计"""
+type MovieStatistics {
+  id: ID!
+  movie_id: ID!
+  view_count: Int!
+  favorite_count: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  movie: Movie!
+}
+
+"""追番/订阅"""
+type MovieSubscription {
+  id: ID!
+  user_id: ID!
+  movie_id: ID!
+  notify_update: Boolean!
+  created_at: DateTime!
+  user: User!
+  movie: Movie!
+}
+
+"""A paginated list of MovieSubscription items."""
+type MovieSubscriptionPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of MovieSubscription items."""
+  data: [MovieSubscription!]!
+}
+
+type Mutation {
+  """用户登录（账号为手机号或邮箱）"""
+  login(input: LoginInput!): AuthPayload!
+
+  """用户注册（账号为手机号或邮箱）"""
+  register(input: RegisterInput!): AuthPayload!
+
+  """记录观看历史（自动创建或更新，以 user_id + movie_id 为唯一标识）"""
+  addWatchHistory(input: WatchHistoryInput!): WatchHistory
+
+  """批量删除观看历史（不传movie_ids则清空全部，返回删除数量）"""
+  removeWatchHistories(movie_ids: [ID!]): Int!
+
+  """添加收藏"""
+  addFavorite(movie_id: ID!): Favorite
+
+  """取消收藏"""
+  removeFavorite(movie_id: ID!): Boolean
+
+  """批量取消收藏（返回成功取消的数量）"""
+  removeFavorites(movie_ids: [ID!]!): Int!
+
+  """添加订阅"""
+  addSubscription(movie_id: ID!, notify_update: Boolean): MovieSubscription
+
+  """取消订阅"""
+  removeSubscription(movie_id: ID!): Boolean
+
+  """添加预约（针对即将上映的影片）"""
+  addReservation(movie_id: ID!): Reservation
+
+  """批量取消订阅（返回成功取消的数量）"""
+  removeSubscriptions(movie_ids: [ID!]!): Int!
+
+  """更新订阅设置"""
+  updateSubscription(movie_id: ID!, notify_update: Boolean!): MovieSubscription
+
+  """添加搜索历史（自动去重，最多保留10条）"""
+  addSearchHistory(keyword: String!): SearchHistory
+
+  """删除单条搜索历史"""
+  removeSearchHistory(id: ID!): Boolean!
+
+  """清空所有搜索历史（返回删除数量）"""
+  clearSearchHistories: Int!
+
+  """创建影片评论（支持回复）"""
+  createMovieComment(input: CreateMovieCommentInput!): Comment
+
+  """创建反馈评论（不支持回复，仅直接评论反馈）"""
+  createFeedbackComment(input: CreateFeedbackCommentInput!): Comment
+
+  """删除评论"""
+  deleteComment(id: ID!): Comment
+
+  """点赞评论"""
+  likeComment(comment_id: ID!): CommentLike
+
+  """取消点赞评论"""
+  unlikeComment(comment_id: ID!): Boolean
+
+  """创建求片请求"""
+  createMovieRequest(content: String!): MovieRequest
+
+  """创建举报"""
+  createReport(input: CreateReportInput!): Report
+
+  """创建反馈"""
+  createFeedback(input: CreateFeedbackInput!): Feedback
+
+  """创建资源记录（上传完成后调用）"""
+  createAsset(input: CreateAssetInput!): Asset!
+
+  """上传文件（图片或视频），返回资源记录"""
+  uploadFile(
+    """文件"""
+    file: Upload!
+
+    """用途标识"""
+    purpose: AssetPurpose
+  ): Asset!
+
+  """标记通知为已读"""
+  markNotificationAsRead(id: ID!): Notification
+
+  """标记所有通知为已读"""
+  markAllNotificationsAsRead: Boolean
+
+  """记录影片浏览量（进入详情页时调用）"""
+  recordMovieView(movie_id: ID!): Boolean!
+
+  """记录剧集播放次数（开始播放时调用）"""
+  recordEpisodePlay(episode_id: ID!): Boolean!
+
+  """记录演员页面浏览量（进入演员详情页时调用）"""
+  recordActorView(actor_id: ID!): Boolean!
+
+  """绑定邀请码（只能绑定一次）"""
+  bindInvitationCode(code: String!): BindInvitationCodePayload!
+}
+
+"""通知"""
+type Notification {
+  id: ID!
+  user_id: ID!
+
+  """通知类型"""
+  type: NotificationType!
+  title: String!
+  content: String
+  notifiable_type: String
+  notifiable_id: ID
+
+  """扩展数据（JSON格式）"""
+  data: NotificationData
+  read_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+}
+
+"""
+通知扩展数据
+根据通知类型包含不同字段：
+- LIKE: 点赞通知，包含点赞者信息、评论内容、影片信息
+- COMMENT: 评论/回复通知，包含反馈信息、回复内容
+"""
+type NotificationData {
+  """点赞者ID"""
+  liker_id: ID
+
+  """点赞者名称"""
+  liker_name: String
+
+  """点赞者头像"""
+  liker_avatar: String
+
+  """评论ID"""
+  comment_id: ID
+
+  """评论内容"""
+  comment_content: String
+
+  """影片ID（点赞通知）"""
+  movie_id: ID
+
+  """影片标题（点赞通知）"""
+  movie_title: String
+
+  """影片封面（点赞通知）"""
+  movie_cover: String
+
+  """反馈ID（反馈回复通知）"""
+  feedback_id: ID
+
+  """反馈内容（反馈回复通知）"""
+  feedback_content: String
+
+  """反馈类型名称（反馈回复通知）"""
+  feedback_type: String
+
+  """回复ID（反馈回复通知）"""
+  reply_id: ID
+
+  """回复内容（反馈回复通知）"""
+  reply_content: String
+
+  """回复者ID（反馈回复通知）"""
+  replier_id: ID
+
+  """回复者名称（反馈回复通知）"""
+  replier_name: String
+}
+
+"""A paginated list of Notification items."""
+type NotificationPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Notification items."""
+  data: [Notification!]!
+}
+
+"""通知类型"""
+enum NotificationType {
+  """系统通知"""
+  SYSTEM
+
+  """更新通知"""
+  UPDATE
+
+  """评论通知"""
+  COMMENT
+
+  """点赞通知"""
+  LIKE
+}
+
+"""Allows ordering a list of records."""
+input OrderByClause {
+  """The column that is used for ordering."""
+  column: String!
+
+  """The direction that is used for ordering."""
+  order: SortOrder!
+}
+
+"""
+Aggregate functions when ordering by a relation without specifying a column.
+"""
+enum OrderByRelationAggregateFunction {
+  """Amount of items."""
+  COUNT
+}
+
+"""
+Aggregate functions when ordering by a relation that may specify a column.
+"""
+enum OrderByRelationWithColumnAggregateFunction {
+  """Average."""
+  AVG
+
+  """Minimum."""
+  MIN
+
+  """Maximum."""
+  MAX
+
+  """Sum."""
+  SUM
+
+  """Amount of items."""
+  COUNT
+}
+
+"""Information about pagination using a fully featured paginator."""
+type PaginatorInfo {
+  """Number of items in the current page."""
+  count: Int!
+
+  """Index of the current page."""
+  currentPage: Int!
+
+  """Index of the first item in the current page."""
+  firstItem: Int
+
+  """Are there more pages after this one?"""
+  hasMorePages: Boolean!
+
+  """Index of the last item in the current page."""
+  lastItem: Int
+
+  """Index of the last available page."""
+  lastPage: Int!
+
+  """Number of items per page."""
+  perPage: Int!
+
+  """Number of total available items."""
+  total: Int!
+}
+
+"""设备/App平台"""
+enum Platform {
+  """iOS"""
+  IOS
+
+  """Android"""
+  ANDROID
+
+  """H5/Web"""
+  H5
+}
+
+"""播放线路"""
+type PlayLine {
+  id: ID!
+  episode_id: ID!
+  name: String!
+  url: String!
+  quality: String
+  is_active: Boolean!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  episode: Episode!
+}
+
+type Query {
+  """查询单个影片（自动记录浏览量）"""
+  movie(id: ID!): Movie
+
+  """查询单个影片系列"""
+  movieSeries(id: ID!): MovieSeries
+
+  """获取影片筛选选项（带缓存）"""
+  movieFilters: MovieFilters!
+
+  """已上映影片（今天及之前），按日期降序分页"""
+  releasedMovies(
+    """每页日期数"""
+    first: Int = 5
+
+    """页码"""
+    page: Int = 1
+
+    """分类ID"""
+    category_id: ID
+  ): MoviesByDatePaginator!
+
+  """即将上映影片（明天及之后），按日期升序分页"""
+  upcomingMovies(
+    """每页日期数"""
+    first: Int = 5
+
+    """页码"""
+    page: Int = 1
+  ): MoviesByDatePaginator!
+
+  """查询单个剧集"""
+  episode(id: ID!): Episode
+
+  """根据影片ID查询所有剧集"""
+  episodesByMovie(movie_id: ID!): [Episode!]!
+
+  """查询单个分类"""
+  category(id: ID!): Category
+
+  """查询所有分类"""
+  categories: [Category!]!
+
+  """获取分类首页数据（banners + grids + channels）"""
+  categoryHome(category_id: ID!): CategoryHome!
+
+  """查询单个栏目"""
+  channel(id: ID!): Channel
+
+  """查询单个类型"""
+  genre(id: ID!): Genre
+
+  """查询所有类型"""
+  genres: [Genre!]!
+
+  """查询单个明星"""
+  actor(id: ID!): Actor
+
+  """查询单个轮播图"""
+  banner(id: ID!): Banner
+
+  """查询轮播图列表"""
+  banners(position: String, category_id: ID, is_active: Boolean): [Banner!]!
+
+  """查询单个用户"""
+  user(id: ID!): User
+
+  """获取当前登录用户"""
+  me: User
+
+  """获取当前用户搜索历史（最多10条，按时间倒序）"""
+  mySearchHistories: [SearchHistory!]!
+
+  """查询单个评论"""
+  comment(id: ID!): Comment
+
+  """查询反馈评论列表（不分页）"""
+  feedbackComments(
+    """反馈ID"""
+    feedback_id: ID!
+  ): [Comment!]!
+
+  """获取未读通知数量"""
+  unreadNotificationCount: Int
+
+  """获取反馈类型列表（仅启用的，按排序）"""
+  feedbackTypes: [FeedbackType!]!
+
+  """查询单个反馈详情"""
+  feedback(id: ID!): Feedback
+
+  """获取热门搜索关键词列表（仅启用的，按排序）"""
+  hotKeywords: [HotKeyword!]!
+
+  """搜索（影片或演职人员）"""
+  search(
+    """搜索关键词"""
+    keyword: String!
+
+    """搜索类型：MOVIE=影片, ACTOR=演职人员"""
+    type: SearchType!
+
+    """每页数量"""
+    first: Int = 20
+
+    """页码"""
+    page: Int = 1
+  ): SearchResult!
+
+  """获取最新App版本"""
+  latestAppVersion(platform: String!): AppVersion
+
+  """检查更新（从请求header中获取platform和build）"""
+  checkUpdate: CheckUpdateResult!
+
+  """获取所有App版本"""
+  appVersions(platform: String, is_active: Boolean): [AppVersion!]!
+
+  """获取所有系统配置"""
+  settings(groups: [String!]): [Setting!]!
+
+  """获取单个系统配置"""
+  setting(key: String!): Setting
+
+  """获取走马灯公告列表"""
+  marqueeNotices: [String!]!
+
+  """查询广告列表（按排序，仅上架状态）"""
+  advertisements(
+    """广告类型筛选"""
+    type: AdvertisementType
+  ): [Advertisement!]!
+
+  """获取游戏分类列表"""
+  gameCategories: [GameCategoryInfo!]!
+
+  """获取我的邀请码（没有则自动创建）"""
+  myInvitationCode: InvitationCode!
+
+  """获取我被邀请的记录（如果有）"""
+  myInviter: InvitationRecord
+
+  """分页查询影片列表（带筛选和排序）"""
+  movies(
+    """按地区筛选"""
+    area: String
+
+    """按年份筛选"""
+    year: Int
+
+    """按类型ID筛选"""
+    genre_id: ID
+
+    """按分类ID筛选"""
+    category_id: ID
+
+    """排序方式：latest=最新, popular=人气, score=评分"""
+    order_by: String = "latest"
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """分页查询影片系列列表"""
+  allMovieSeries(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MovieSeriesPaginator!
+
+  """猜你喜欢（基于影片的类型、地区推荐相似影片）"""
+  recommendedMovies(
+    """当前影片ID"""
+    movie_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 6
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """热门影片列表（按播放量排序）"""
+  hotMovies(
+    """分类ID（可选）"""
+    category_id: ID
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """查询栏目下的影片列表（分页，按后台配置顺序）"""
+  moviesByChannel(
+    """栏目ID"""
+    channel_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """根据分类ID查询栏目（分页，仅返回非宫格栏目）"""
+  channelsByCategory(
+    category_id: ID!
+    is_grid: Boolean
+
+    """Limits number of fetched items."""
+    first: Int! = 10
+
+    """The offset from which items are returned."""
+    page: Int
+  ): ChannelPaginator!
+
+  """分页查询明星列表"""
+  actors(
+    name: String
+    area: String
+    gender: Int
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): ActorPaginator!
+
+  """查询明星参演的影片列表（分页）"""
+  moviesByActor(
+    """明星ID"""
+    actor_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """分页查询专题分组"""
+  topicGroups(
+    """Limits number of fetched items."""
+    first: Int! = 10
+
+    """The offset from which items are returned."""
+    page: Int
+  ): TopicGroupPaginator!
+
+  """分页查询专题列表"""
+  topics(
+    group_id: ID
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): TopicPaginator!
+
+  """查询专题下的影片列表（分页，按后台配置顺序）"""
+  moviesByTopic(
+    """专题ID"""
+    topic_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MoviePaginator!
+
+  """获取当前用户观看历史"""
+  myWatchHistories(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): WatchHistoryPaginator!
+
+  """获取当前用户收藏列表"""
+  myFavorites(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): FavoritePaginator!
+
+  """获取当前用户订阅列表"""
+  mySubscriptions(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MovieSubscriptionPaginator!
+
+  """获取当前用户预约列表（可按状态筛选：UPCOMING=即将上映, RELEASED=已上映）"""
+  myReservations(
+    status: ReservationStatus
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): ReservationPaginator!
+
+  """分页查询影片评论列表"""
+  movieComments(
+    """影片ID"""
+    movie_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): CommentPaginator!
+
+  """查询一级评论的子评论列表"""
+  commentReplies(
+    """一级评论ID"""
+    parent_id: ID!
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): CommentPaginator!
+
+  """获取当前用户求片列表"""
+  myMovieRequests(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): MovieRequestPaginator!
+
+  """获取当前用户通知列表"""
+  myNotifications(
+    type: String
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): NotificationPaginator!
+
+  """获取当前用户反馈列表"""
+  myFeedbacks(
+    """状态筛选：0=待处理, 1=已回复, 2=已关闭"""
+    status: Int
+
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): FeedbackPaginator!
+
+  """根据分类获取游戏列表（分页）"""
+  games(
+    """游戏分类"""
+    category: GameCategory!
+
+    """Limits number of fetched items."""
+    first: Int! = 10
+
+    """The offset from which items are returned."""
+    page: Int
+  ): GamePaginator!
+
+  """获取我的邀请记录列表"""
+  myInvitationRecords(
+    """Limits number of fetched items."""
+    first: Int! = 20
+
+    """The offset from which items are returned."""
+    page: Int
+  ): InvitationRecordPaginator!
+}
+
+"""注册输入"""
+input RegisterInput {
+  """账号（手机号或邮箱）"""
+  account: String!
+
+  """密码"""
+  password: String!
+}
+
+"""举报"""
+type Report {
+  id: ID!
+  user_id: ID!
+
+  """举报目标类型"""
+  reportable_type: ReportableType!
+  reportable_id: ID!
+
+  """举报原因"""
+  reason: ReportReason!
+  description: String
+
+  """状态：0=待处理, 1=已处理, 2=已忽略"""
+  status: Int!
+  admin_remark: String
+  handled_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+}
+
+"""举报目标类型"""
+enum ReportableType {
+  """评论"""
+  COMMENT
+
+  """影片"""
+  MOVIE
+
+  """剧集"""
+  EPISODE
+}
+
+"""举报原因"""
+enum ReportReason {
+  """垃圾广告"""
+  SPAM
+
+  """色情内容"""
+  PORN
+
+  """暴力内容"""
+  VIOLENCE
+
+  """其他"""
+  OTHER
+}
+
+"""预约"""
+type Reservation {
+  id: ID!
+  user_id: ID!
+  movie_id: ID!
+  created_at: DateTime!
+  user: User!
+  movie: Movie!
+}
+
+"""A paginated list of Reservation items."""
+type ReservationPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Reservation items."""
+  data: [Reservation!]!
+}
+
+"""预约列表筛选状态"""
+enum ReservationStatus {
+  """即将上映（available_at > 今天）"""
+  UPCOMING
+
+  """已上映（available_at <= 今天）"""
+  RELEASED
+}
+
+"""搜索历史"""
+type SearchHistory {
+  id: ID!
+  user_id: ID
+  keyword: String!
+  created_at: DateTime!
+  user: User
+}
+
+"""搜索结果"""
+type SearchResult {
+  """影片列表（type=MOVIE时返回）"""
+  movies: [Movie!]
+
+  """演职人员列表（type=ACTOR时返回）"""
+  actors: [Actor!]
+
+  """分页信息"""
+  paginatorInfo: PaginatorInfo!
+}
+
+"""搜索类型"""
+enum SearchType {
+  """搜索影片（根据影片名、类型、演职人员）"""
+  MOVIE
+
+  """搜索演职人员（根据名称）"""
+  ACTOR
+}
+
+"""系统配置"""
+type Setting {
+  id: ID!
+
+  """配置分组"""
+  group: String!
+
+  """配置键"""
+  key: String!
+
+  """配置值"""
+  value: String
+
+  """值类型：string/integer/boolean/json"""
+  type: String!
+  description: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""Directions for ordering a list of records."""
+enum SortOrder {
+  """Sort records in ascending order."""
+  ASC
+
+  """Sort records in descending order."""
+  DESC
+}
+
+"""专题"""
+type Topic {
+  id: ID!
+  group_id: ID
+  name: String!
+  cover: String
+  description: String
+  movie_count: Int!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+  group: TopicGroup
+  movies: [Movie!]!
+}
+
+"""专题分组"""
+type TopicGroup {
+  id: ID!
+  name: String!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+
+  """专题列表（可指定数量，默认10个）"""
+  topics(
+    """Limits number of fetched items."""
+    first: Int!
+
+    """The offset from which items are returned."""
+    page: Int
+  ): TopicPaginator!
+}
+
+"""A paginated list of TopicGroup items."""
+type TopicGroupPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of TopicGroup items."""
+  data: [TopicGroup!]!
+}
+
+"""A paginated list of Topic items."""
+type TopicPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Topic items."""
+  data: [Topic!]!
+}
+
+"""
+Specify if you want to include or exclude trashed results from a query.
+"""
+enum Trashed {
+  """Only return trashed results."""
+  ONLY
+
+  """Return both trashed and non-trashed results."""
+  WITH
+
+  """Only return non-trashed results."""
+  WITHOUT
+}
+
+"""文件上传类型"""
+scalar Upload
+
+"""用户"""
+type User {
+  id: ID!
+  name: String!
+  nickname: String
+  avatar: String
+
+  """性别：0=未知, 1=男, 2=女"""
+  gender: Int!
+  bio: String
+  email: String
+  phone: String
+
+  """是否为游客账号"""
+  is_guest: Boolean!
+  email_verified_at: DateTime
+  phone_verified_at: DateTime
+  last_login_ip: String
+  last_login_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  devices: [UserDevice!]!
+  favorites: [Favorite!]!
+  subscriptions: [MovieSubscription!]!
+  watchHistories: [WatchHistory!]!
+  comments: [Comment!]!
+  movieRequests: [MovieRequest!]!
+}
+
+"""用户设备"""
+type UserDevice {
+  id: ID!
+  user_id: ID!
+  device_id: String!
+  device_name: String
+
+  """设备类型：ios/android/web"""
+  device_type: String!
+  os_version: String
+  app_version: String
+  ip: String
+  location: String
+  push_token: String
+  last_active_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+}
+
+"""用户角色"""
+enum UserRole {
+  """普通用户"""
+  USER
+
+  """管理员"""
+  ADMIN
+
+  """超级管理员"""
+  SUPER_ADMIN
+}
+
+"""观看历史"""
+type WatchHistory {
+  id: ID!
+  user_id: ID!
+  movie_id: ID!
+  episode_id: ID!
+
+  """播放进度（秒）"""
+  progress: Int!
+
+  """该集总时长（秒）"""
+  duration: Int!
+  watched_at: DateTime!
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+  movie: Movie!
+  episode: Episode!
+}
+
+input WatchHistoryInput {
+  movie_id: ID!
+  episode_id: ID!
+
+  """当前播放进度（秒）"""
+  progress: Int!
+
+  """视频总时长（秒），由前端提供"""
+  duration: Int!
+}
+
+"""A paginated list of WatchHistory items."""
+type WatchHistoryPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of WatchHistory items."""
+  data: [WatchHistory!]!
+}
+

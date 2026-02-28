@@ -1,0 +1,82 @@
+query MovieDetail(
+  $id: ID!
+  $recommendMoviesPage: Int
+  $recommendMoviesFirst: Int!
+) {
+  movie(id: $id) {
+    id
+    title
+    cover
+    description
+    score
+    year
+    area
+    quality
+    status
+    total_episodes
+    current_episode
+    genres {
+      id
+      name
+    }
+    statistics {
+      view_count
+      favorite_count
+    }
+    credits {
+      role
+      character
+      actor {
+        id
+        name
+        avatar
+      }
+    }
+    episodes {
+      id
+      episode_number
+      title
+      duration
+      playLines {
+        id
+        name
+        url
+        quality
+        sort
+      }
+    }
+    isFavorited
+    isSubscribed
+    lastWatchHistory {
+      episode_id
+      progress
+      duration
+      episode {
+        episode_number
+      }
+    }
+  }
+  recommendedMovies(
+    movie_id: $id
+    page: $recommendMoviesPage
+    first: $recommendMoviesFirst
+  ) {
+    paginatorInfo {
+      currentPage
+      lastPage
+      hasMorePages
+    }
+    data {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      current_episode
+      statistics {
+        view_count
+      }
+    }
+  }
+}

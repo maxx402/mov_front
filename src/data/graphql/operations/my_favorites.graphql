@@ -1,0 +1,29 @@
+query MyFavorites($page: Int, $first: Int!) {
+  myFavorites(page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      movie {
+        id
+        title
+        cover
+        score
+        status
+        quality
+        area
+        year
+        current_episode
+        description
+        genres {
+          id
+          name
+        }
+        statistics {
+          view_count
+        }
+      }
+    }
+  }
+}

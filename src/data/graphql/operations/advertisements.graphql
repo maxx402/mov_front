@@ -1,0 +1,10 @@
+# 获取广告列表
+query Advertisements($type: AdvertisementType) {
+  advertisements(type: $type) {
+    id
+    name
+    image
+    link
+    type
+  }
+}

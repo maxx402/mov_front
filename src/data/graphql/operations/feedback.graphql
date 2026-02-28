@@ -1,0 +1,31 @@
+# 获取单个反馈详情
+query Feedback($id: ID!) {
+  feedback(id: $id) {
+    id
+    content
+    status
+    created_at
+    feedbackType {
+      id
+      name
+    }
+    images {
+      id
+      url
+    }
+    video {
+      id
+      url
+    }
+    comments {
+      id
+      content
+      created_at
+      user {
+        id
+        nickname
+        avatar
+      }
+    }
+  }
+}

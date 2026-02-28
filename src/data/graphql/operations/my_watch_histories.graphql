@@ -1,0 +1,25 @@
+query MyWatchHistories($page: Int, $first: Int!) {
+  myWatchHistories(page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      progress
+      duration
+      watched_at
+      episode {
+        id
+        episode_number
+      }
+      movie {
+        id
+        title
+        cover
+        status
+        current_episode
+        total_episodes
+      }
+    }
+  }
+}

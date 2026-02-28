@@ -1,0 +1,57 @@
+query CategoryHome($id: ID!, $movieFirst: Int!) {
+  categoryHome(category_id: $id) {
+    banners {
+      cover
+      title
+      subtitle
+      link_type
+      link_url
+      link_id
+    }
+    channels {
+      id
+      name
+      cover
+      icon
+      background_image
+      description
+      movies(first: $movieFirst) {
+        data {
+          id
+          title
+          cover
+          score
+          status
+          quality
+          current_episode
+          statistics {
+            view_count
+          }
+        }
+      }
+    }
+    grids {
+      id
+      name
+      cover
+      icon
+      background_image
+      grid_icon
+      description
+      link_type
+      link_url
+    }
+    hotMovies {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      current_episode
+      statistics {
+        view_count
+      }
+    }
+  }
+}

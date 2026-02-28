@@ -1,0 +1,17 @@
+query Actors($page: Int, $first: Int!) {
+  actors(page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      name
+      avatar
+      description
+      area
+      statistics {
+        movie_count
+      }
+    }
+  }
+}

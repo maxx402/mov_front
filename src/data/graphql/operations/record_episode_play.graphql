@@ -1,0 +1,3 @@
+mutation RecordEpisodePlay($episode_id: ID!) {
+  recordEpisodePlay(episode_id: $episode_id)
+}

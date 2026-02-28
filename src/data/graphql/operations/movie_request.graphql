@@ -1,0 +1,10 @@
+# 创建求片请求
+mutation CreateMovieRequest($content: String!) {
+  createMovieRequest(content: $content) {
+    id
+    content
+    status
+    admin_reply
+    created_at
+  }
+}

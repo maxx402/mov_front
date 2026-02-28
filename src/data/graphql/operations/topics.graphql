@@ -1,0 +1,14 @@
+query Topics($groupId: ID, $page: Int, $first: Int!) {
+  topics(group_id: $groupId, page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      name
+      cover
+      description
+      movie_count
+    }
+  }
+}

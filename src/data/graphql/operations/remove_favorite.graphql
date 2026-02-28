@@ -1,0 +1,4 @@
+# 取消收藏
+mutation RemoveFavorite($movieId: ID!) {
+  removeFavorite(movie_id: $movieId)
+}

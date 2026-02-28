@@ -1,0 +1,18 @@
+# 添加/更新观看历史
+mutation AddWatchHistory($input: WatchHistoryInput!) {
+  addWatchHistory(input: $input) {
+    id
+    progress
+    duration
+    watched_at
+    episode {
+      id
+      episode_number
+    }
+    movie {
+      id
+      title
+      cover
+    }
+  }
+}

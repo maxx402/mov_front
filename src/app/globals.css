@@ -1,26 +1,217 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surface & Background */
+  --bg-scaffold: #0D0C0B;
+  --bg-card: #1F1F1F;
+  --bg-surface: #1F1F1F;
+  --bg-overlay: rgba(0, 0, 0, 0.9);
+  --bg-tab-bar: #06060E;
+
+  /* Brand Colors */
+  --color-primary: #2196F3;
+  --color-secondary: #F84048;
+  --color-tertiary: #00BCD4;
+  --color-error: #F44336;
+
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #E4D5D1;
+  --text-tertiary: #797979;
+  --text-hint: #F84048;
+
+  /* Gradient - Primary Button */
+  --gradient-btn-start: #F9315C;
+  --gradient-btn-end: #F64E36;
+  --gradient-btn-border-start: rgba(254, 172, 166, 0.88);
+  --gradient-btn-border-end: rgba(255, 183, 183, 0.86);
+
+  /* Search Bar (Home) */
+  --search-bar-border: rgba(255, 255, 255, 0.55);
+  --search-bar-bg: rgba(255, 255, 255, 0.05);
+  --search-bar-shadow: rgba(0, 0, 0, 0.17);
+  --search-bar-hint: rgba(255, 255, 255, 0.6);
+
+  /* Discover Page */
+  --discover-header: #3A1516;
+  --discover-header-90: rgba(58, 21, 22, 0.9);
+  --discover-tab-bg: rgba(0, 0, 0, 0.5);
+  --discover-tab-start: #F3E888;
+  --discover-tab-end: #E1AE55;
+  --discover-badge: #FF8D28;
+  --discover-actor-red: #F53C3D;
+  --discover-actor-red-bg: rgba(245, 60, 61, 0.1);
+
+  /* My Page */
+  --my-card-start: #2C2223;
+  --my-card-end: rgba(44, 34, 35, 0);
+  --my-card-border: rgba(255, 255, 255, 0.2);
+  --my-badge-start: #F9315C;
+  --my-badge-end: #F64E36;
+  --my-history-badge-bg: rgba(35, 30, 29, 0.5);
+
+  /* Overlay & Modal */
+  --overlay-mask: rgba(0, 0, 0, 0.56);
+  --modal-icon-bg: rgba(255, 255, 255, 0.2);
+
+  /* Toast */
+  --toast-bg: rgba(0, 0, 0, 0.9);
+  --toast-shadow: rgba(0, 0, 0, 0.17);
+
+  /* Loading & Images */
+  --loading-panel-bg: #232323;
+  --image-placeholder-bg: #4C4C4C;
+  --image-placeholder-icon: #999999;
+  --image-error-icon: #9E9E9E;
+
+  /* Notice Bar */
+  --notice-bar-bg: rgba(37, 35, 33, 0.87);
+  --notice-bar-border: rgba(255, 255, 255, 0.15);
+  --notice-bar-text: rgba(255, 255, 255, 0.5);
+
+  /* Misc */
+  --border-color: #262626;
+  --subtle-border: rgba(255, 255, 255, 0.55);
+  --loading-color: #ADADAD;
+  --logout-btn-bg: #252321;
+  --floating-btn-bg: rgba(0, 0, 0, 0.35);
+  --cover-gradient-end: rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Surface & Background */
+  --color-scaffold: var(--bg-scaffold);
+  --color-card: var(--bg-card);
+  --color-surface: var(--bg-surface);
+  --color-overlay: var(--bg-overlay);
+  --color-tab-bar: var(--bg-tab-bar);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Brand Colors */
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-tertiary: var(--color-tertiary);
+  --color-error: var(--color-error);
+
+  /* Text Colors */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-hint: var(--text-hint);
+
+  /* Discover */
+  --color-discover-header: var(--discover-header);
+  --color-discover-badge: var(--discover-badge);
+  --color-discover-actor-red: var(--discover-actor-red);
+
+  /* My Page */
+  --color-my-card-start: var(--my-card-start);
+
+  /* Gradient Button */
+  --color-gradient-btn-start: var(--gradient-btn-start);
+  --color-gradient-btn-end: var(--gradient-btn-end);
+
+  /* Toast */
+  --color-toast-bg: var(--toast-bg);
+
+  /* Misc */
+  --color-border: var(--border-color);
+  --color-loading: var(--loading-color);
+  --color-logout-btn: var(--logout-btn-bg);
+  --color-loading-panel: var(--loading-panel-bg);
+  --color-image-placeholder: var(--image-placeholder-bg);
+  --color-floating-btn: var(--floating-btn-bg);
+  --color-notice-bar-bg: var(--notice-bar-bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-scaffold);
+  color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+/* Shimmer animation for skeleton loading */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    #2a2a2a 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Toast animation */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Marquee animation for NoticeBar */
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area for mobile */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
 }

@@ -1,0 +1,21 @@
+query RecommendedMovies($id: ID!, $page: Int, $first: Int!) {
+  recommendedMovies(movie_id: $id, page: $page, first: $first) {
+    paginatorInfo {
+      currentPage
+      lastPage
+      hasMorePages
+    }
+    data {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      current_episode
+      statistics {
+        view_count
+      }
+    }
+  }
+}

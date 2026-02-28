@@ -1,0 +1,17 @@
+# 获取演员详情
+query Actor($id: ID!) {
+  actor(id: $id) {
+    id
+    name
+    original_name
+    avatar
+    description
+    area
+    birthday
+    gender
+    statistics {
+      movie_count
+      view_count
+    }
+  }
+}

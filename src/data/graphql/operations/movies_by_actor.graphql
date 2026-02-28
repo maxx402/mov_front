@@ -1,0 +1,26 @@
+query MoviesByActor($id: ID!, $page: Int, $first: Int!) {
+  moviesByActor(actor_id: $id, page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      area
+      year
+      current_episode
+      description
+      genres {
+        id
+        name
+      }
+      statistics {
+        view_count
+      }
+    }
+  }
+}

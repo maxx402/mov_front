@@ -1,0 +1,10 @@
+# 更新订阅设置
+mutation UpdateSubscription($movieId: ID!, $notifyUpdate: Boolean!) {
+  updateSubscription(movie_id: $movieId, notify_update: $notifyUpdate) {
+    id
+    movie_id
+    user_id
+    notify_update
+    created_at
+  }
+}

@@ -1,0 +1,13 @@
+# 获取反馈评论列表
+query FeedbackComments($feedbackId: ID!) {
+  feedbackComments(feedback_id: $feedbackId) {
+    id
+    content
+    created_at
+    user {
+      id
+      name
+      avatar
+    }
+  }
+}

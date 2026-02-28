@@ -1,0 +1,14 @@
+# 检查更新
+query CheckUpdate {
+  checkUpdate {
+    has_update
+    force_update
+    latest_version {
+      title
+      description
+      download_url
+      file_size
+      created_at
+    }
+  }
+}

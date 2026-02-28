@@ -1,0 +1,12 @@
+# 游戏页轮播图
+query GameBanners {
+  banners(position: "game", is_active: true) {
+    id
+    title
+    subtitle
+    cover
+    link_type
+    link_id
+    link_url
+  }
+}

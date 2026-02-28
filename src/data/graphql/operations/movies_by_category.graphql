@@ -1,0 +1,26 @@
+query MoviesByChannel($channelId: ID!, $first: Int!, $page: Int) {
+  moviesByChannel(channel_id: $channelId, first: $first, page: $page) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      area
+      year
+      current_episode
+      description
+      genres {
+        id
+        name
+      }
+      statistics {
+        view_count
+      }
+    }
+  }
+}

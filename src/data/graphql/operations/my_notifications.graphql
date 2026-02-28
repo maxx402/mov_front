@@ -1,0 +1,34 @@
+query MyNotifications($page: Int, $first: Int!) {
+  myNotifications(page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      title
+      content
+      created_at
+      notifiable_id
+      notifiable_type
+      data {
+        liker_id
+        liker_name
+        liker_avatar
+        comment_id
+        comment_content
+        movie_id
+        movie_title
+        movie_cover
+        feedback_id
+        feedback_content
+        feedback_type
+        reply_id
+        reply_content
+        replier_id
+        replier_name
+      }
+      type
+      read_at
+    }
+  }
+}

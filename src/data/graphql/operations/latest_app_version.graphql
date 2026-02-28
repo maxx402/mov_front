@@ -1,0 +1,14 @@
+# 获取最新App版本
+query LatestAppVersion($platform: String!) {
+  latestAppVersion(platform: $platform) {
+    id
+    platform
+    version
+    version_code
+    title
+    description
+    download_url
+    file_size
+    force_update
+  }
+}

@@ -1,0 +1,3 @@
+mutation RecordActorView($actor_id: ID!) {
+  recordActorView(actor_id: $actor_id)
+}

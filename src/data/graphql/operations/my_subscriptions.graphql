@@ -1,0 +1,29 @@
+query MySubscriptions($page: Int, $first: Int!) {
+  mySubscriptions(page: $page, first: $first) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      movie {
+        id
+        title
+        cover
+        score
+        status
+        quality
+        area
+        year
+        current_episode
+        description
+        genres {
+          id
+          name
+        }
+        statistics {
+          view_count
+        }
+      }
+    }
+  }
+}

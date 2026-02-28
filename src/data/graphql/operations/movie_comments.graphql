@@ -1,0 +1,60 @@
+# 获取影片评论列表
+query MovieComments(
+  $movieId: ID!
+  $page: Int
+  $first: Int!
+) {
+  movieComments(
+    movie_id: $movieId
+    page: $page
+    first: $first
+  ) {
+    paginatorInfo {
+      hasMorePages
+      total
+    }
+    data {
+      id
+      content
+      liked
+      statistics {
+        like_count
+      }
+      created_at
+      user {
+        id
+        name
+        avatar
+        gender
+      }
+      children(page: 1, first: 1) {
+        paginatorInfo {
+          hasMorePages
+          total
+        }
+        data {
+          id
+          content
+          liked
+          statistics {
+            like_count
+          }
+          created_at
+          user {
+            id
+            name
+            avatar
+            gender
+          }
+          replyToComment {
+            id
+            user {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

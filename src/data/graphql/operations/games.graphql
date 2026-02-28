@@ -1,0 +1,16 @@
+# 根据分类获取游戏列表（分页）
+query Games($category: GameCategory!, $first: Int!, $page: Int) {
+  games(category: $category, first: $first, page: $page) {
+    paginatorInfo {
+      hasMorePages
+      total
+    }
+    data {
+      id
+      title
+      subtitle
+      image
+      link
+    }
+  }
+}

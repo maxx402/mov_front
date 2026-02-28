@@ -1,0 +1,13 @@
+# 创建反馈
+mutation CreateFeedback($input: CreateFeedbackInput!) {
+  createFeedback(input: $input) {
+    id
+    content
+    status
+    created_at
+    feedbackType {
+      id
+      name
+    }
+  }
+}

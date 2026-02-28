@@ -1,0 +1,9 @@
+# 添加追剧
+mutation AddSubscription($movieId: ID!, $notifyUpdate: Boolean) {
+  addSubscription(movie_id: $movieId, notify_update: $notifyUpdate) {
+    id
+    movie_id
+    notify_update
+    created_at
+  }
+}

@@ -1,0 +1,39 @@
+# 搜索影片或演员
+query Search($keyword: String!, $type: SearchType!, $first: Int = 20, $page: Int = 1) {
+  search(keyword: $keyword, type: $type, first: $first, page: $page) {
+    movies {
+      id
+      title
+      cover
+      description
+      score
+      year
+      area
+      quality
+      total_episodes
+      current_episode
+      status
+      genres {
+        id
+        name
+      }
+      statistics {
+        view_count
+      }
+    }
+    actors {
+      id
+      name
+      avatar
+      area
+      statistics {
+        movie_count
+      }
+    }
+    paginatorInfo {
+      currentPage
+      hasMorePages
+      total
+    }
+  }
+}

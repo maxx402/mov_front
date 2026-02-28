@@ -1,0 +1,13 @@
+query Me {
+  me {
+    id
+    name
+    nickname
+    avatar
+    gender
+    bio
+    phone
+    email
+    is_guest
+  }
+}

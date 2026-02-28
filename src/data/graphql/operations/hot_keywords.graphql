@@ -1,0 +1,9 @@
+# 获取热门搜索关键词
+query HotKeywords {
+  hotKeywords {
+    id
+    keyword
+    type
+    link_id
+  }
+}

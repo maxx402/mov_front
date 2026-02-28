@@ -1,0 +1,4 @@
+# 取消点赞评论
+mutation UnlikeComment($commentId: ID!) {
+  unlikeComment(comment_id: $commentId)
+}

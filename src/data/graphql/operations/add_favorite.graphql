@@ -1,0 +1,8 @@
+# 添加收藏
+mutation AddFavorite($movieId: ID!) {
+  addFavorite(movie_id: $movieId) {
+    id
+    movie_id
+    created_at
+  }
+}

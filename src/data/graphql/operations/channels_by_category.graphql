@@ -1,0 +1,35 @@
+query ChannelsByCategory(
+  $id: ID!
+  $page: Int
+  $first: Int = 10
+  $movieFirst: Int = 2
+) {
+  channelsByCategory(category_id: $id, page: $page, first: $first) {
+    paginatorInfo {
+      total
+      hasMorePages
+    }
+    data {
+      id
+      name
+      cover
+      icon
+      background_image
+      description
+      movies(first: $movieFirst) {
+        data {
+          id
+          title
+          cover
+          score
+          status
+          quality
+          current_episode
+          statistics {
+            view_count
+          }
+        }
+      }
+    }
+  }
+}

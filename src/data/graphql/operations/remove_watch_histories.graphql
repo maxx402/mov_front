@@ -1,0 +1,4 @@
+# 批量删除观看历史（不传movie_ids则清空全部）
+mutation RemoveWatchHistories($movie_ids: [ID!]) {
+  removeWatchHistories(movie_ids: $movie_ids)
+}

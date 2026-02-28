@@ -1,0 +1,8 @@
+# 点赞评论
+mutation LikeComment($commentId: ID!) {
+  likeComment(comment_id: $commentId) {
+    user_id
+    comment_id
+    created_at
+  }
+}

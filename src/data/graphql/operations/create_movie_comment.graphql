@@ -1,0 +1,25 @@
+# 发布影片评论
+mutation CreateMovieComment($input: CreateMovieCommentInput!) {
+  createMovieComment(input: $input) {
+    id
+    content
+    liked
+    statistics {
+      like_count
+    }
+    created_at
+    user {
+      id
+      name
+      avatar
+      gender
+    }
+    replyToComment {
+      id
+      user {
+        id
+        name
+      }
+    }
+  }
+}

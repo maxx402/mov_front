@@ -1,0 +1,12 @@
+# 创建举报
+mutation CreateReport($input: CreateReportInput!) {
+  createReport(input: $input) {
+    id
+    reportable_type
+    reportable_id
+    reason
+    description
+    status
+    created_at
+  }
+}

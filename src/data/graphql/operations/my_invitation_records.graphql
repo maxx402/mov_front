@@ -1,0 +1,21 @@
+# 获取我的邀请记录列表
+query MyInvitationRecords($first: Int!, $page: Int) {
+  myInvitationRecords(first: $first, page: $page) {
+    paginatorInfo {
+      currentPage
+      lastPage
+      total
+    }
+    data {
+      id
+      invitee_id
+      created_at
+      invitee {
+        id
+        name
+        nickname
+        avatar
+      }
+    }
+  }
+}

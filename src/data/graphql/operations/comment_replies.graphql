@@ -1,0 +1,39 @@
+# 获取一级评论的子评论列表
+query CommentReplies(
+  $parentId: ID!
+  $page: Int
+  $first: Int!
+) {
+  commentReplies(
+    parent_id: $parentId
+    page: $page
+    first: $first
+  ) {
+    paginatorInfo {
+      hasMorePages
+      total
+    }
+    data {
+      id
+      content
+      liked
+      statistics {
+        like_count
+      }
+      created_at
+      user {
+        id
+        name
+        avatar
+        gender
+      }
+      replyToComment {
+        id
+        user {
+          id
+          name
+        }
+      }
+    }
+  }
+}

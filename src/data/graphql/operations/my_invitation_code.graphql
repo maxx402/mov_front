@@ -1,0 +1,8 @@
+# 获取我的邀请码
+query MyInvitationCode {
+  myInvitationCode {
+    id
+    code
+    used_count
+  }
+}

@@ -1,0 +1,6 @@
+mutation BindInvitationCode($code: String!) {
+  bindInvitationCode(code: $code) {
+    success
+    message
+  }
+}

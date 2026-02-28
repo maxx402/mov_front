@@ -1,0 +1,8 @@
+# 上传文件（图片或视频）
+mutation UploadFile($file: Upload!, $purpose: AssetPurpose) {
+  uploadFile(file: $file, purpose: $purpose) {
+    id
+    url
+    type
+  }
+}

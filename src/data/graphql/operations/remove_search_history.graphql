@@ -1,0 +1,4 @@
+# 删除单条搜索历史
+mutation RemoveSearchHistory($id: ID!) {
+  removeSearchHistory(id: $id)
+}

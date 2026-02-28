@@ -1,0 +1,11 @@
+# 获取用户信息
+query User($id: ID!) {
+  user(id: $id) {
+    id
+    name
+    nickname
+    avatar
+    gender
+    bio
+  }
+}

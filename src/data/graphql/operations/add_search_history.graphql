@@ -1,0 +1,8 @@
+# 添加搜索历史
+mutation AddSearchHistory($keyword: String!) {
+  addSearchHistory(keyword: $keyword) {
+    id
+    keyword
+    created_at
+  }
+}

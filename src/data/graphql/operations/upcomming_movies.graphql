@@ -1,0 +1,21 @@
+query UpcomingMovies($page: Int, $first: Int) {
+  upcomingMovies(page: $page, first: $first) {
+    hasMorePages
+    data {
+      date
+      count
+      movies {
+        id
+        title
+        cover
+        score
+        status
+        quality
+        current_episode
+        statistics {
+          view_count
+        }
+      }
+    }
+  }
+}

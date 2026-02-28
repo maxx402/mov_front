@@ -1,0 +1,10 @@
+query MovieFilters {
+  movieFilters {
+    years
+    genres {
+      id
+      name
+    }
+    areas
+  }
+}

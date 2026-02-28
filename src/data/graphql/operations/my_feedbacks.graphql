@@ -1,0 +1,36 @@
+# 获取当前用户反馈列表
+query MyFeedbacks($page: Int, $first: Int!, $status: Int) {
+  myFeedbacks(page: $page, first: $first, status: $status) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      content
+      status
+      created_at
+      feedbackType {
+        id
+        name
+      }
+      images {
+        id
+        url
+      }
+      video {
+        id
+        url
+      }
+      comments {
+        id
+        content
+        created_at
+        user {
+          id
+          nickname
+          avatar
+        }
+      }
+    }
+  }
+}

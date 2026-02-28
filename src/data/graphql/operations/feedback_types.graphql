@@ -1,0 +1,7 @@
+# 获取反馈类型列表
+query FeedbackTypes {
+  feedbackTypes {
+    id
+    name
+  }
+}

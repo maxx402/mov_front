@@ -1,0 +1,22 @@
+query MyReservations($page: Int, $first: Int!, $status: ReservationStatus) {
+  myReservations(page: $page, first: $first, status: $status) {
+    paginatorInfo {
+      currentPage
+      lastPage
+      hasMorePages
+      total
+    }
+    data {
+      id
+      movie_id
+      created_at
+      movie {
+        id
+        title
+        cover
+        release_date
+        status
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+query Movies(
+  $area: String
+  $year: Int
+  $genreId: ID
+  $categoryId: ID
+  $orderBy: String
+  $first: Int!
+  $page: Int
+) {
+  movies(
+    area: $area
+    year: $year
+    genre_id: $genreId
+    category_id: $categoryId
+    order_by: $orderBy
+    first: $first
+    page: $page
+  ) {
+    paginatorInfo {
+      hasMorePages
+    }
+    data {
+      id
+      title
+      cover
+      score
+      status
+      quality
+      area
+      year
+      current_episode
+      description
+      genres {
+        id
+        name
+      }
+      statistics {
+        view_count
+      }
+    }
+  }
+}

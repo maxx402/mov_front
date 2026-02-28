@@ -1,0 +1,3 @@
+mutation RemoveSubscriptions($movie_ids: [ID!]!) {
+  removeSubscriptions(movie_ids: $movie_ids)
+}

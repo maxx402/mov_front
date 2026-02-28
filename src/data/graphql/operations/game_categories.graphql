@@ -1,0 +1,7 @@
+# 获取游戏分类列表
+query GameCategories {
+  gameCategories {
+    category
+    name
+  }
+}

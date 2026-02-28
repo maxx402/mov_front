@@ -1,0 +1,14 @@
+mutation AddReservation($movie_id: ID!) {
+  addReservation(movie_id: $movie_id) {
+    id
+    movie_id
+    created_at
+    movie {
+      id
+      title
+      cover
+      release_date
+      status
+    }
+  }
+}

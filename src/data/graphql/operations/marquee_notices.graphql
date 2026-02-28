@@ -1,0 +1,4 @@
+# 获取走马灯公告
+query MarqueeNotices {
+  marqueeNotices
+}

@@ -1,0 +1,3 @@
+mutation RecordMovieView($movie_id: ID!) {
+  recordMovieView(movie_id: $movie_id)
+}

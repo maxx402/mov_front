@@ -1,0 +1,12 @@
+query MyInviter {
+  myInviter {
+    id
+    created_at
+    inviter {
+      id
+      name
+      nickname
+      avatar
+    }
+  }
+}

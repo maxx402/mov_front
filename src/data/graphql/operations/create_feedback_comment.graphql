@@ -1,0 +1,13 @@
+# 创建反馈评论
+mutation CreateFeedbackComment($input: CreateFeedbackCommentInput!) {
+  createFeedbackComment(input: $input) {
+    id
+    content
+    created_at
+    user {
+      id
+      name
+      avatar
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# 取消订阅
+mutation RemoveSubscription($movie_id: ID!) {
+  removeSubscription(movie_id: $movie_id)
+}

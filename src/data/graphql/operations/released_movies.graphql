@@ -1,0 +1,21 @@
+query ReleasedMovies($page: Int, $first: Int, $categoryId: ID) {
+  releasedMovies(page: $page, first: $first, category_id: $categoryId) {
+    data {
+      date
+      count
+      movies {
+        id
+        title
+        cover
+        score
+        status
+        quality
+        current_episode
+        statistics {
+          view_count
+        }
+      }
+    }
+    hasMorePages
+  }
+}
