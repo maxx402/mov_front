@@ -8,7 +8,6 @@ export const DI_KEYS = {
   FavoriteRepository: "FavoriteRepository",
   SubscriptionRepository: "SubscriptionRepository",
   HistoryRepository: "HistoryRepository",
-  ActorRepository: "ActorRepository",
   NotificationRepository: "NotificationRepository",
   TopicRepository: "TopicRepository",
   ReservationRepository: "ReservationRepository",
@@ -24,12 +23,11 @@ export const DI_KEYS = {
   HomeStore: "HomeStore",
   AdStore: "AdStore",
   AppConfigStore: "AppConfigStore",
-
-  // Stores (page-level factories)
   FilterStore: "FilterStore",
-  DiscoverStore: "DiscoverStore",
-  MovieDetailStore: "MovieDetailStore",
   MyStore: "MyStore",
   PreviewStore: "PreviewStore",
   GameStore: "GameStore",
+
+  // Stores (page-level factories)
+  MovieDetailStore: "MovieDetailStore",
 } as const;

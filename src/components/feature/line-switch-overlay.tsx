@@ -46,7 +46,7 @@ export function LineSwitchOverlay({
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 40,
+        zIndex: 60,
         overflow: "hidden",
         pointerEvents: visible ? "auto" : "none",
       }}

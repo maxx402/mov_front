@@ -26,6 +26,7 @@ export class FilterStore {
   isLoadingMore = false;
   isRefreshing = false;
   errorMessage: string | null = null;
+  private _initialized = false;
 
   constructor(
     private readonly movieRepository: IMovieRepository,
@@ -70,6 +71,8 @@ export class FilterStore {
   }
 
   async init(): Promise<void> {
+    if (this._initialized) return;
+    this._initialized = true;
     this.isLoading = true;
     await Promise.all([this.loadFilters(), this.loadCategories()]);
     await this.loadMovies(1);

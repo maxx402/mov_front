@@ -5,7 +5,6 @@ export * from "./category";
 export * from "./channel";
 export * from "./banner";
 export * from "./genre";
-export * from "./actor";
 export * from "./comment";
 export * from "./topic";
 export * from "./search";

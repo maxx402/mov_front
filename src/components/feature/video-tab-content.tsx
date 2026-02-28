@@ -18,6 +18,7 @@ interface Props {
   onEpisodeSelect: (episode: Episode) => void;
   recommendedMovies: readonly Movie[];
   onRefreshRecommended?: () => void;
+  onShowAllEpisodes?: () => void;
   marqueeTexts?: readonly string[];
 }
 
@@ -28,6 +29,7 @@ export const VideoTabContent = observer(function VideoTabContent({
   onEpisodeSelect,
   recommendedMovies,
   onRefreshRecommended,
+  onShowAllEpisodes,
   marqueeTexts,
 }: Props) {
   const statusText = getMovieStatusText(movie);
@@ -99,25 +101,24 @@ export const VideoTabContent = observer(function VideoTabContent({
       {episodes.length > 0 && (
         <div style={{ marginTop: 20 }}>
           {/* Episode header */}
-          <div
-            className="flex items-center"
+          <button
+            className="flex w-full items-center"
             style={{ padding: "0 11px", marginBottom: 14 }}
+            onClick={onShowAllEpisodes}
           >
             <span style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF" }}>
               选集
             </span>
+            <span className="flex-1" />
             {episodeCountText && (
-              <>
-                <span className="flex-1" />
-                <span
-                  style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.7)" }}
-                >
-                  {episodeCountText}
-                </span>
-                <ChevronRight size={16} color="rgba(255, 255, 255, 0.7)" />
-              </>
+              <span
+                style={{ fontSize: 13, color: "rgba(255, 255, 255, 0.7)" }}
+              >
+                {episodeCountText}
+              </span>
             )}
-          </div>
+            <ChevronRight size={16} color="rgba(255, 255, 255, 0.7)" />
+          </button>
           {/* Horizontal scrolling episodes */}
           <div
             className="scrollbar-none flex overflow-x-auto"

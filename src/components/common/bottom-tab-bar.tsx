@@ -14,7 +14,6 @@ interface TabItem {
 const tabs: TabItem[] = [
   { href: "/", icon: "/images/tab_home.webp", iconActive: "/images/tab_home_hint.webp", label: "首页" },
   { href: "/filter", icon: "/images/tab_filter.webp", iconActive: "/images/tab_filter_hint.webp", label: "筛选" },
-  { href: "/discover", icon: "/images/tab_discover.webp", iconActive: "/images/tab_discover_hint.webp", label: "发现" },
   { href: "/my", icon: "/images/tab_my.webp", iconActive: "/images/tab_my_hint.webp", label: "我的" },
 ];
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +15,7 @@ interface Props {
   channel: Channel;
 }
 
-export function ChannelSection({ channel }: Props) {
+export const ChannelSection = memo(function ChannelSection({ channel }: Props) {
   const router = useRouter();
 
   return (
@@ -81,9 +82,9 @@ export function ChannelSection({ channel }: Props) {
       </div>
     </div>
   );
-}
+});
 
-function ChannelMovieCard({ movie }: { movie: Movie }) {
+const ChannelMovieCard = memo(function ChannelMovieCard({ movie }: { movie: Movie }) {
   const fhd = isMovieFHD(movie);
   const statusText = getMovieStatusText(movie);
 
@@ -152,4 +153,4 @@ function ChannelMovieCard({ movie }: { movie: Movie }) {
       </p>
     </Link>
   );
-}
+});

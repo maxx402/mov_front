@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { OptimizedImage } from "@/components/common/optimized-image";
@@ -16,7 +17,7 @@ interface Props {
   showStatus?: boolean;
 }
 
-export function MovieCard({
+export const MovieCard = memo(function MovieCard({
   movie,
   width,
   height,
@@ -93,4 +94,4 @@ export function MovieCard({
       </p>
     </Link>
   );
-}
+});

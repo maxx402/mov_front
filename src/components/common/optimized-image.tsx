@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { memo, useState } from "react";
 import clsx from "clsx";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export function OptimizedImage({
+export const OptimizedImage = memo(function OptimizedImage({
   src,
   alt,
   width,
@@ -62,10 +62,8 @@ export function OptimizedImage({
       <Image
         src={src}
         alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
-        fill={fill}
-        sizes={sizes}
+        fill
+        sizes={sizes ?? `${width}px`}
         priority={priority}
         className={clsx(
           "object-cover transition-opacity duration-300",
@@ -74,8 +72,7 @@ export function OptimizedImage({
         )}
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
-        unoptimized
       />
     </div>
   );
-}
+});

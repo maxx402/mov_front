@@ -18,6 +18,8 @@ export class GameStore {
   errorMessage: string | null = null;
   private gameListCache: Map<string, GameListState> = new Map();
 
+  private _initialized = false;
+
   constructor(private readonly repository: IGameRepository) {
     makeAutoObservable(this);
   }
@@ -44,6 +46,8 @@ export class GameStore {
   }
 
   async init(): Promise<void> {
+    if (this._initialized) return;
+    this._initialized = true;
     await Promise.all([this.loadBanners(), this.loadCategories()]);
   }
 

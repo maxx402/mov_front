@@ -12,6 +12,7 @@ export class MyStore {
   unreadNotificationCount = 0;
   appConfig: AppConfig | null = null;
 
+  private _initialized = false;
   private authReaction: IReactionDisposer | null = null;
 
   constructor(
@@ -50,6 +51,8 @@ export class MyStore {
   }
 
   async init(): Promise<void> {
+    if (this._initialized) return;
+    this._initialized = true;
     await Promise.all([
       this.loadWatchHistories(),
       this.loadUnreadNotificationCount(),

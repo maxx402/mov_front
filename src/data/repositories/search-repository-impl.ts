@@ -34,6 +34,7 @@ export class SearchRepositoryImpl implements ISearchRepository {
     try {
       const { data } = await this.client.query({
         query: SearchDocument,
+        fetchPolicy: "network-only",
         variables: {
           keyword: params.keyword,
           type: SearchType.Movie,
@@ -58,7 +59,7 @@ export class SearchRepositoryImpl implements ISearchRepository {
 
   async getHotKeywords(): Promise<Result<HotKeyword[]>> {
     try {
-      const { data } = await this.client.query({ query: HotKeywordsDocument });
+      const { data } = await this.client.query({ query: HotKeywordsDocument, fetchPolicy: "network-only" });
       const keywords: HotKeyword[] = data!.hotKeywords.map((k: any) => ({
         id: k.id,
         keyword: k.keyword,
@@ -73,7 +74,7 @@ export class SearchRepositoryImpl implements ISearchRepository {
 
   async getSearchHistory(): Promise<Result<SearchHistory[]>> {
     try {
-      const { data } = await this.client.query({ query: MySearchHistoriesDocument });
+      const { data } = await this.client.query({ query: MySearchHistoriesDocument, fetchPolicy: "network-only" });
       const histories: SearchHistory[] = data!.mySearchHistories.map((h: any) => ({
         id: h.id,
         keyword: h.keyword,

@@ -34,6 +34,7 @@ export class NotificationRepositoryImpl implements INotificationRepository {
       const { data } = await this.client.query({
         query: MyNotificationsDocument,
         variables: { page: params?.page ?? 1, first: params?.pageSize ?? 20 },
+        fetchPolicy: "network-only",
       });
       return Result.success(mapPaginatedList(data!.myNotifications, mapNotification));
     } catch (error) {
@@ -43,7 +44,7 @@ export class NotificationRepositoryImpl implements INotificationRepository {
 
   async getUnreadCount(): Promise<Result<number>> {
     try {
-      const { data } = await this.client.query({ query: UnreadNotificationCountDocument });
+      const { data } = await this.client.query({ query: UnreadNotificationCountDocument, fetchPolicy: "network-only" });
       return Result.success(data!.unreadNotificationCount ?? 0);
     } catch (error) {
       return Result.failure(FailureMapper.fromError(error));

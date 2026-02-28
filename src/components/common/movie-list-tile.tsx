@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { OptimizedImage } from "./optimized-image";
 
@@ -22,7 +23,7 @@ interface Props {
   readonly onTap?: () => void;
 }
 
-export function MovieListTile({
+export const MovieListTile = memo(function MovieListTile({
   cover,
   title,
   subtitle,
@@ -215,7 +216,7 @@ export function MovieListTile({
       </div>
     </button>
   );
-}
+});
 
 /* RankBadge: top 10 use images, >10 use text */
 export function RankBadge({ rank }: { readonly rank: number }) {

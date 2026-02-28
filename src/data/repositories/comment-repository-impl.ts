@@ -30,12 +30,14 @@ export class CommentRepositoryImpl implements ICommentRepository {
         const { data } = await this.client.query({
           query: CommentRepliesDocument,
           variables: { parentId: params.parentId, page: params.page ?? 1, first: params.pageSize ?? 20 },
+          fetchPolicy: "network-only",
         });
         return Result.success(mapPaginatedList(data!.commentReplies, mapComment));
       }
       const { data } = await this.client.query({
         query: MovieCommentsDocument,
         variables: { movieId: params.targetId, page: params.page ?? 1, first: params.pageSize ?? 20 },
+        fetchPolicy: "network-only",
       });
       return Result.success(mapPaginatedList(data!.movieComments, mapComment));
     } catch (error) {

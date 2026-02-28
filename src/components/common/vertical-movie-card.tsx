@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { OptimizedImage } from "./optimized-image";
 
@@ -13,7 +14,7 @@ interface Props {
   readonly onTap?: () => void;
 }
 
-export function VerticalMovieCard({
+export const VerticalMovieCard = memo(function VerticalMovieCard({
   cover,
   title,
   width = 112,
@@ -66,4 +67,4 @@ export function VerticalMovieCard({
       </span>
     </button>
   );
-}
+});

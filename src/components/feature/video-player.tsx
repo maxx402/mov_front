@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import ReactPlayer from "react-player";
-import { LoadingSpinner } from "@/components/common/loading-spinner";
+import { useEffect, useRef } from "react";
 import clsx from "clsx";
 
 interface Props {
@@ -12,24 +10,42 @@ interface Props {
 }
 
 export function VideoPlayer({ url, className, onEnded }: Props) {
-  const [isReady, setIsReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<import("dplayer").default | null>(null);
+  const onEndedRef = useRef(onEnded);
+  onEndedRef.current = onEnded;
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let dp: import("dplayer").default | null = null;
+
+    import("dplayer").then((mod) => {
+      const DPlayer = mod.default;
+      dp = new DPlayer({
+        container,
+        video: { url },
+        autoplay: true,
+        theme: "#F53C3D",
+        lang: "zh-cn",
+        preload: "auto",
+      });
+      dp.on("ended", () => onEndedRef.current?.());
+      playerRef.current = dp;
+    });
+
+    return () => {
+      dp?.destroy();
+      playerRef.current = null;
+    };
+  }, [url]);
 
   return (
-    <div className={clsx("relative w-full bg-black", className)} style={{ aspectRatio: "3/2" }}>
-      {!isReady && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      )}
-      <ReactPlayer
-        src={url}
-        width="100%"
-        height="100%"
-        controls
-        playing
-        onReady={() => setIsReady(true)}
-        onEnded={onEnded}
-      />
-    </div>
+    <div
+      ref={containerRef}
+      className={clsx("relative w-full bg-black", className)}
+      style={{ aspectRatio: "3/2" }}
+    />
   );
 }

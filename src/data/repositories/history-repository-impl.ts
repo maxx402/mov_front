@@ -35,6 +35,7 @@ export class HistoryRepositoryImpl implements IHistoryRepository {
       const { data } = await this.client.query({
         query: MyWatchHistoriesDocument,
         variables: { page: params?.page ?? 1, first: params?.pageSize ?? 20 },
+        fetchPolicy: "network-only",
       });
       return Result.success(mapPaginatedList(data!.myWatchHistories, mapWatchHistory));
     } catch (error) {

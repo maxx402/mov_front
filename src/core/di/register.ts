@@ -12,7 +12,6 @@ import { CommentRepositoryImpl } from "@/data/repositories/comment-repository-im
 import { FavoriteRepositoryImpl } from "@/data/repositories/favorite-repository-impl";
 import { SubscriptionRepositoryImpl } from "@/data/repositories/subscription-repository-impl";
 import { HistoryRepositoryImpl } from "@/data/repositories/history-repository-impl";
-import { ActorRepositoryImpl } from "@/data/repositories/actor-repository-impl";
 import { NotificationRepositoryImpl } from "@/data/repositories/notification-repository-impl";
 import { TopicRepositoryImpl } from "@/data/repositories/topic-repository-impl";
 import { ReservationRepositoryImpl } from "@/data/repositories/reservation-repository-impl";
@@ -31,7 +30,6 @@ import { AppConfigStore } from "@/stores/app-config-store";
 
 // Page-level Stores
 import { FilterStore } from "@/stores/filter-store";
-import { DiscoverStore } from "@/stores/discover-store";
 import { MovieDetailStore } from "@/stores/movie-detail-store";
 import { MyStore } from "@/stores/my-store";
 import { PreviewStore } from "@/stores/preview-store";
@@ -44,7 +42,6 @@ import type { IMovieRepository } from "@/domain/repositories/movie-repository";
 import type { IAdRepository } from "@/domain/repositories/ad-repository";
 import type { IAppConfigRepository } from "@/domain/repositories/app-config-repository";
 import type { ITopicRepository } from "@/domain/repositories/topic-repository";
-import type { IActorRepository } from "@/domain/repositories/actor-repository";
 import type { IFavoriteRepository } from "@/domain/repositories/favorite-repository";
 import type { ISubscriptionRepository } from "@/domain/repositories/subscription-repository";
 import type { ICommentRepository } from "@/domain/repositories/comment-repository";
@@ -70,7 +67,6 @@ export function registerDependencies(container: Container): void {
   container.register(DI_KEYS.FavoriteRepository, () => new FavoriteRepositoryImpl(client));
   container.register(DI_KEYS.SubscriptionRepository, () => new SubscriptionRepositoryImpl(client));
   container.register(DI_KEYS.HistoryRepository, () => new HistoryRepositoryImpl(client));
-  container.register(DI_KEYS.ActorRepository, () => new ActorRepositoryImpl(client));
   container.register(DI_KEYS.NotificationRepository, () => new NotificationRepositoryImpl(client));
   container.register(DI_KEYS.TopicRepository, () => new TopicRepositoryImpl(client));
   container.register(DI_KEYS.ReservationRepository, () => new ReservationRepositoryImpl(client));
@@ -101,38 +97,38 @@ export function registerDependencies(container: Container): void {
   );
   container.registerSingleton(DI_KEYS.AppConfigStore, appConfigStore);
 
-  // Register Page-level Store Factories (new instance per get())
-  container.register(DI_KEYS.FilterStore, () => new FilterStore(
+  // Register Singleton Stores (persist across navigation)
+  const filterStore = new FilterStore(
     container.get<IMovieRepository>(DI_KEYS.MovieRepository),
     container.get<ICategoryRepository>(DI_KEYS.CategoryRepository),
-  ));
+  );
+  container.registerSingleton(DI_KEYS.FilterStore, filterStore);
 
-  container.register(DI_KEYS.DiscoverStore, () => new DiscoverStore(
-    container.get<ITopicRepository>(DI_KEYS.TopicRepository),
-    container.get<IActorRepository>(DI_KEYS.ActorRepository),
-  ));
+  const myStore = new MyStore(
+    container.getSingleton<UserStore>(DI_KEYS.UserStore),
+    container.get<IHistoryRepository>(DI_KEYS.HistoryRepository),
+    container.get<INotificationRepository>(DI_KEYS.NotificationRepository),
+    container.get<IAppConfigRepository>(DI_KEYS.AppConfigRepository),
+  );
+  container.registerSingleton(DI_KEYS.MyStore, myStore);
 
+  const previewStore = new PreviewStore(
+    container.get<IMovieRepository>(DI_KEYS.MovieRepository),
+    container.get<ICategoryRepository>(DI_KEYS.CategoryRepository),
+    container.get<IReservationRepository>(DI_KEYS.ReservationRepository),
+  );
+  container.registerSingleton(DI_KEYS.PreviewStore, previewStore);
+
+  const gameStore = new GameStore(
+    container.get<IGameRepository>(DI_KEYS.GameRepository),
+  );
+  container.registerSingleton(DI_KEYS.GameStore, gameStore);
+
+  // Page-level Store Factories (new instance per get())
   container.register(DI_KEYS.MovieDetailStore, () => new MovieDetailStore(
     container.get<IMovieRepository>(DI_KEYS.MovieRepository),
     container.get<IFavoriteRepository>(DI_KEYS.FavoriteRepository),
     container.get<ISubscriptionRepository>(DI_KEYS.SubscriptionRepository),
     container.get<ICommentRepository>(DI_KEYS.CommentRepository),
-  ));
-
-  container.register(DI_KEYS.MyStore, () => new MyStore(
-    container.getSingleton<UserStore>(DI_KEYS.UserStore),
-    container.get<IHistoryRepository>(DI_KEYS.HistoryRepository),
-    container.get<INotificationRepository>(DI_KEYS.NotificationRepository),
-    container.get<IAppConfigRepository>(DI_KEYS.AppConfigRepository),
-  ));
-
-  container.register(DI_KEYS.PreviewStore, () => new PreviewStore(
-    container.get<IMovieRepository>(DI_KEYS.MovieRepository),
-    container.get<ICategoryRepository>(DI_KEYS.CategoryRepository),
-    container.get<IReservationRepository>(DI_KEYS.ReservationRepository),
-  ));
-
-  container.register(DI_KEYS.GameStore, () => new GameStore(
-    container.get<IGameRepository>(DI_KEYS.GameRepository),
   ));
 }

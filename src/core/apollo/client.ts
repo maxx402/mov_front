@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { ApolloClient, InMemoryCache, from } from "@apollo/client";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { env } from "@/core/config/env";
 import { createAuthLink } from "./auth-link";
 import { createErrorLink } from "./error-link";
@@ -11,8 +12,10 @@ export function getApolloClient(
 ): ApolloClient {
   if (apolloClient) return apolloClient;
 
-  const httpLink = new HttpLink({
+  const httpLink = new BatchHttpLink({
     uri: env.graphqlEndpoint,
+    batchMax: 5,
+    batchInterval: 20,
   });
 
   const authLink = createAuthLink(getToken);
@@ -22,7 +25,7 @@ export function getApolloClient(
     link: from([errorLink, authLink, httpLink]),
     cache: new InMemoryCache(),
     defaultOptions: {
-      query: { fetchPolicy: "no-cache" },
+      query: { fetchPolicy: "cache-first" },
       mutate: { fetchPolicy: "no-cache" },
     },
   });

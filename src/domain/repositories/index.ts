@@ -6,7 +6,6 @@ export type { ICommentRepository } from "./comment-repository";
 export type { IFavoriteRepository } from "./favorite-repository";
 export type { ISubscriptionRepository } from "./subscription-repository";
 export type { IHistoryRepository } from "./history-repository";
-export type { IActorRepository } from "./actor-repository";
 export type { INotificationRepository } from "./notification-repository";
 export type { ITopicRepository } from "./topic-repository";
 export type { IReservationRepository } from "./reservation-repository";

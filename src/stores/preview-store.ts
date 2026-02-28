@@ -17,6 +17,8 @@ export class PreviewStore {
 
   releasedMoviesCache: Map<string, MoviesByDate[]> = new Map();
 
+  private _initialized = false;
+
   constructor(
     private readonly movieRepository: IMovieRepository,
     private readonly categoryRepository: ICategoryRepository,
@@ -42,6 +44,8 @@ export class PreviewStore {
   }
 
   async init(): Promise<void> {
+    if (this._initialized) return;
+    this._initialized = true;
     this.isLoading = true;
     await Promise.all([this.loadUpcoming(), this.loadCategories()]);
     runInAction(() => { this.isLoading = false; });

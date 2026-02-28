@@ -17,6 +17,7 @@
     "@apollo/client": "^4.1.6",
     "@hookform/resolvers": "^5.2.2",
     "clsx": "^2.1.1",
+    "dplayer": "^1.27.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.34.3",
@@ -28,7 +29,6 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
-    "react-player": "^3.4.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

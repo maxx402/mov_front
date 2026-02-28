@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useHomeStore, useAppConfigStore } from "@/stores/use-store";
 import { CategoryTabBar } from "@/components/common/category-tab-bar";
@@ -13,7 +12,6 @@ import { BannerCarousel } from "@/components/feature/banner-carousel";
 import { ChannelSection } from "@/components/feature/channel-section";
 import { HotRankCard } from "@/components/feature/hot-rank-card";
 import { NoticeBar } from "@/components/feature/notice-bar";
-import { SectionHeader } from "@/components/common/section-header";
 
 const HomePage = observer(function HomePage() {
   const router = useRouter();
@@ -88,56 +86,7 @@ const HomePage = observer(function HomePage() {
               </div>
             )}
 
-            {/* 3. Grid Items (5 per row, icon + label) */}
-            {categoryHome.grids.length > 0 && (
-              <div className="flex flex-wrap">
-                {categoryHome.grids.map((grid) => (
-                  <Link
-                    key={grid.id}
-                    href={`/channel/${grid.id}`}
-                    className="flex flex-col items-center"
-                    style={{ width: "20%", paddingTop: 12, paddingBottom: 12 }}
-                  >
-                    {grid.gridIcon ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={grid.gridIcon}
-                        alt={grid.name}
-                        style={{ width: 47, height: 36, objectFit: "contain" }}
-                      />
-                    ) : (
-                      <div
-                        className="flex items-center justify-center"
-                        style={{
-                          width: 47,
-                          height: 36,
-                          background: "rgba(255,255,255,0.1)",
-                          borderRadius: 6,
-                        }}
-                      >
-                        <span style={{ fontSize: 14, color: "#E4D5D1" }}>
-                          {grid.name.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-                    <span
-                      className="mt-3 truncate text-center"
-                      style={{
-                        fontSize: 12,
-                        color: "#E4D5D1",
-                        width: "100%",
-                        paddingLeft: 4,
-                        paddingRight: 4,
-                      }}
-                    >
-                      {grid.name}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            {/* 4. Hot Rank */}
+            {/* 3. Hot Rank */}
             {categoryHome.hotMovies.length > 0 && (
               <div style={{ marginTop: 16 }}>
                 <HotRankCard movies={categoryHome.hotMovies} />
@@ -173,6 +122,7 @@ const HomePage = observer(function HomePage() {
               alt="Logo"
               width={100}
               height={24}
+              priority
               style={{ height: 23.5, width: "auto" }}
             />
             <button

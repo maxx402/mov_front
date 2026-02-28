@@ -3,6 +3,7 @@
 import { use, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { ChevronLeft } from "lucide-react";
 import { useContainer } from "@/core/di/provider";
 import { DI_KEYS } from "@/core/di/keys";
@@ -16,9 +17,16 @@ import { VideoPlayer } from "@/components/feature/video-player";
 import { DetailTabBar } from "@/components/feature/detail-tab-bar";
 import { VideoBottomBar } from "@/components/feature/video-bottom-bar";
 import { VideoTabContent } from "@/components/feature/video-tab-content";
-import { CommentsTabContent } from "@/components/feature/comments-tab-content";
-import { IntroTabContent } from "@/components/feature/intro-tab-content";
 import { LineSwitchOverlay } from "@/components/feature/line-switch-overlay";
+
+const CommentsTabContent = dynamic(
+  () => import("@/components/feature/comments-tab-content").then((m) => m.CommentsTabContent),
+  { ssr: false },
+);
+const IntroTabContent = dynamic(
+  () => import("@/components/feature/intro-tab-content").then((m) => m.IntroTabContent),
+  { ssr: false },
+);
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -141,6 +149,7 @@ const MovieDetailPage = observer(function MovieDetailPage({ params }: Props) {
               episodes={store.episodes}
               currentEpisodeId={currentEpisode?.id}
               onEpisodeSelect={handleEpisodeSelect}
+              onShowAllEpisodes={() => setShowLineSwitch(true)}
               recommendedMovies={store.recommendedMovies}
               onRefreshRecommended={() => store.refreshRecommended()}
               marqueeTexts={appConfigStore.marqueeTexts}

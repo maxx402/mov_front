@@ -19,6 +19,7 @@ export class AppConfigStore {
   }
 
   async loadAppConfig(): Promise<void> {
+    if (this.appConfig) return;
     this.isLoading = true;
     const result = await this.appConfigRepository.getAppConfig();
     runInAction(() => {

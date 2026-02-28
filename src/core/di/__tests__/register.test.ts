@@ -32,9 +32,6 @@ vi.mock("@/data/repositories/subscription-repository-impl", () => ({
 vi.mock("@/data/repositories/history-repository-impl", () => ({
   HistoryRepositoryImpl: vi.fn(),
 }));
-vi.mock("@/data/repositories/actor-repository-impl", () => ({
-  ActorRepositoryImpl: vi.fn(),
-}));
 vi.mock("@/data/repositories/notification-repository-impl", () => ({
   NotificationRepositoryImpl: vi.fn(),
 }));
@@ -79,9 +76,6 @@ vi.mock("@/stores/app-config-store", () => ({
 vi.mock("@/stores/filter-store", () => ({
   FilterStore: vi.fn(),
 }));
-vi.mock("@/stores/discover-store", () => ({
-  DiscoverStore: vi.fn(),
-}));
 vi.mock("@/stores/movie-detail-store", () => ({
   MovieDetailStore: vi.fn(),
 }));
@@ -117,11 +111,20 @@ describe("registerDependencies", () => {
     expect(container.getSingleton(DI_KEYS.AppConfigStore)).toBeDefined();
   });
 
-  it("page stores create new instances each call", () => {
+  it("converted stores are singletons", () => {
     const container = new Container();
     registerDependencies(container);
-    const store1 = container.get(DI_KEYS.FilterStore);
-    const store2 = container.get(DI_KEYS.FilterStore);
+    expect(container.getSingleton(DI_KEYS.FilterStore)).toBeDefined();
+    expect(container.getSingleton(DI_KEYS.MyStore)).toBeDefined();
+    expect(container.getSingleton(DI_KEYS.PreviewStore)).toBeDefined();
+    expect(container.getSingleton(DI_KEYS.GameStore)).toBeDefined();
+  });
+
+  it("MovieDetailStore creates new instances each call", () => {
+    const container = new Container();
+    registerDependencies(container);
+    const store1 = container.get(DI_KEYS.MovieDetailStore);
+    const store2 = container.get(DI_KEYS.MovieDetailStore);
     expect(store1).not.toBe(store2);
   });
 });

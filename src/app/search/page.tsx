@@ -75,9 +75,7 @@ export default function SearchPage() {
       setIsLoadingCategories(false);
     };
 
-    loadSearchHistory();
-    loadHotKeywords();
-    loadCategories();
+    Promise.all([loadSearchHistory(), loadHotKeywords(), loadCategories()]);
   }, [searchRepo, categoryRepo]);
 
   const loadRankMovies = async (categoryId: string) => {

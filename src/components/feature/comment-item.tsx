@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { OptimizedImage } from "@/components/common/optimized-image";
 import type { Comment } from "@/domain/entities/comment";
@@ -9,7 +10,7 @@ interface Props {
   onToggleLike?: () => void;
 }
 
-export function CommentItem({ comment, onToggleLike }: Props) {
+export const CommentItem = memo(function CommentItem({ comment, onToggleLike }: Props) {
   const date = new Date(comment.createdAt);
   const dateStr = `${date.getMonth() + 1}-${date.getDate()}`;
 
@@ -55,4 +56,4 @@ export function CommentItem({ comment, onToggleLike }: Props) {
       </div>
     </div>
   );
-}
+});
